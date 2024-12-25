@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import SectionHeader from "./SectionHeader";
+import { CalendarDays, Plus, X } from "lucide-react";
 
 interface EventPreferencesProps {
   role: string;
@@ -47,79 +49,120 @@ const EventPreferences: React.FC<EventPreferencesProps> = ({
   };
 
   return (
-    <div className="text-center">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">
-        {role === "cosplayer"
-          ? "Cosplayer Event Preferences"
-          : "Photographer Event Preferences"}
-      </h2>
-      <div className="bg-white shadow-lg rounded-lg p-8">
-        <h3 className="text-xl font-semibold text-gray-700 mb-4">Your Events</h3>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {events.map((event, index) => (
-            <span
-              key={index}
-              className="flex items-center px-3 py-1 bg-indigo-600 text-white rounded-full"
-            >
-              {event}
-              <button
-                type="button"
-                onClick={() => handleRemoveEvent(event)}
-                className="ml-2 text-red-300 hover:text-red-600"
+    <>
+      {/* Title Section */}
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">
+          Choose Your Events
+        </h1>
+        <p className="text-indigo-100 text-lg">
+          Select the conventions you plan to attend
+        </p>
+      </div>
+
+      {/* Main Content Card */}
+      <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl 
+                    border border-white/20 space-y-12">
+        {/* Selected Events Section */}
+        <div className="space-y-6">
+          <SectionHeader
+            icon={CalendarDays}
+            title="Your Selected Events"
+            subtitle="Events you're planning to attend"
+          />
+          
+          <div className="flex flex-wrap gap-2">
+            {events.map((event, index) => (
+              <span
+                key={index}
+                className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r 
+                         from-indigo-500 to-purple-500 text-white rounded-xl
+                         shadow-md"
               >
-                &times;
+                {event}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveEvent(event)}
+                  className="hover:bg-white/20 rounded-full p-1 transition-colors"
+                >
+                  <X className="w-4 h-4" />
+                </button>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Upcoming Conventions Section */}
+        <div className="space-y-6 pb-8 border-b border-gray-200">
+          <h3 className="text-lg font-semibold text-indigo-900">
+            Popular Upcoming Conventions
+          </h3>
+          <div className="flex flex-wrap gap-2">
+            {upcomingConventions.map((convention, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => handleAddEvent(convention)}
+                className={`px-4 py-2 rounded-xl transition-all duration-200
+                  ${events.includes(convention)
+                    ? "bg-gradient-to-r from-indigo-500 to-purple-500 text-white shadow-md transform hover:scale-[1.05]"
+                    : "bg-white text-gray-700 border-2 border-gray-200 hover:border-indigo-300 hover:bg-indigo-50"
+                  }`}
+              >
+                {convention}
               </button>
-            </span>
-          ))}
+            ))}
+          </div>
         </div>
-        <h4 className="text-lg font-semibold text-gray-700 mb-2">
-          Add From Upcoming Conventions:
-        </h4>
-        <div className="flex flex-wrap gap-2 mb-4">
-          {upcomingConventions.map((convention, index) => (
-            <button
-              key={index}
-              type="button"
-              onClick={() => handleAddEvent(convention)}
-              className={`px-3 py-1 rounded-full border ${
-                events.includes(convention)
-                  ? "bg-indigo-600 text-white"
-                  : "bg-gray-200 text-gray-800"
-              }`}
-            >
-              {convention}
-            </button>
-          ))}
+
+        {/* Custom Event Input */}
+        <div className="space-y-4">
+          <h3 className="text-lg font-semibold text-indigo-900">
+            Add Custom Event
+          </h3>
+          <div className="relative">
+            <input
+              type="text"
+              className="w-full px-4 py-3 rounded-xl border-2 border-gray-200
+                       focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200
+                       transition-all duration-200 bg-white/50"
+              placeholder="Enter event name and press Enter"
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && e.currentTarget.value.trim() !== "") {
+                  handleAddEvent(e.currentTarget.value.trim());
+                  e.currentTarget.value = "";
+                }
+              }}
+            />
+            <Plus className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400" />
+          </div>
         </div>
-        <input
-          type="text"
-          className="mt-4 p-2 border rounded-lg w-full"
-          placeholder="Add a custom event"
-          onKeyDown={(e) => {
-            if (e.key === "Enter" && e.currentTarget.value.trim() !== "") {
-              handleAddEvent(e.currentTarget.value.trim());
-              e.currentTarget.value = "";
-            }
-          }}
-        />
-        <div className="flex justify-between mt-6">
+
+        {/* Navigation */}
+        <div className="flex justify-between pt-6">
           <button
             type="button"
             onClick={prevStep}
-            className="bg-gray-200 px-4 py-2 rounded hover:bg-gray-300"
+            className="px-8 py-3 rounded-xl font-semibold text-indigo-600 
+                     border-2 border-indigo-500 hover:bg-indigo-50
+                     transition-all duration-200 transform hover:scale-[1.02]"
           >
             Back
           </button>
           <button
             type="button"
             onClick={handleSubmit}
-            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+            className="px-8 py-3 rounded-xl font-semibold text-white
+                     bg-gradient-to-r from-indigo-500 to-purple-500
+                     hover:from-indigo-600 hover:to-purple-600
+                     transition-all duration-200 transform hover:scale-[1.02]
+                     shadow-md hover:shadow-lg"
           >
             Next
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

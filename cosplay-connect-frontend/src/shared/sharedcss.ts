@@ -8,16 +8,16 @@ export const buttonStyles = {
   };
   
   export const containerStyles = {
-    page: "min-h-screen bg-gradient-to-b from-indigo-50 to-white",
-    mainContent: "max-w-2xl mx-auto px-4 py-8",
+    page: "min-h-screen relative",
+    mainContent: "max-w-4xl mx-auto px-4",
     section: "mb-12",
-    card: "bg-white rounded-2xl p-8 shadow-sm border border-indigo-100/50"
+    card: "bg-white/90 backdrop-blur-md rounded-3xl p-8 shadow-[0_8px_30px_rgb(0,0,0,0.12)] border border-white/20"
   };
-  
+
   export const textStyles = {
     h1: "text-4xl font-bold bg-gradient-to-r from-indigo-600 to-purple-600 bg-clip-text text-transparent",
     h2: "text-2xl font-semibold text-indigo-900 mb-6",
-    sectionTitle: "text-lg font-semibold text-indigo-900 mb-4",
+    sectionTitle: "text-lg text-indigo-600 font-medium mb-4",
     label: "text-sm font-semibold text-indigo-700 bg-white px-2 relative z-10"
   };
   

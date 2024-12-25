@@ -1,5 +1,7 @@
 import React from "react";
 import { UserData } from "../shared/types";
+import { CalendarDays, CheckCircle, PenLine, User } from "lucide-react";
+import SectionHeader from "./SectionHeader";
 
 interface FinalizeProfileProps {
   userData: UserData;
@@ -14,61 +16,99 @@ const FinalizeProfile: React.FC<FinalizeProfileProps> = ({
   onEdit,
   onFinalize,
 }) => {
+  const sections = [
+    {
+      title: "Basic Information",
+      icon: User,
+      content: userData.name,
+      step: 2
+    },
+    {
+      title: "About You",
+      icon: PenLine,
+      content: userData.bio,
+      step: 2
+    },
+    {
+      title: "Your Events",
+      icon: CalendarDays,
+      content: userData.events.join(", "),
+      step: 3
+    }
+  ];
+
   return (
-    <div className="text-center">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">Review Your Profile</h2>
-      <div className="bg-white shadow-lg rounded-lg p-8">
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold">Name</h3>
-          <p>{userData.name}</p>
-          <button
-            className="text-indigo-600 hover:underline"
-            onClick={() => onEdit(2)} // Navigate to Profile Details step
-          >
-            Edit
-          </button>
-        </div>
+    <>
+      {/* Title Section */}
+      <div className="text-center mb-10">
+        <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">
+          Review Your Profile
+        </h1>
+        <p className="text-indigo-100 text-lg">
+          Make sure everything looks perfect
+        </p>
+      </div>
 
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold">Bio</h3>
-          <p>{userData.bio}</p>
-          <button
-            className="text-indigo-600 hover:underline"
-            onClick={() => onEdit(2)}
+      {/* Main Content Card */}
+      <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 shadow-2xl 
+                    border border-white/20 space-y-12">
+        {sections.map((section, index) => (
+          <div 
+            key={index}
+            className="relative pb-8 border-b border-gray-200 last:border-0 last:pb-0"
           >
-            Edit
-          </button>
-        </div>
+            <SectionHeader
+              icon={section.icon}
+              title={section.title}
+            />
+            
+            <div className="mt-4 group">
+              <p className="text-gray-700 text-lg">
+                {section.content || <span className="text-gray-400 italic">Not provided</span>}
+              </p>
+              
+              <button
+                onClick={() => onEdit(section.step)}
+                className="absolute top-0 right-0 px-4 py-2 rounded-lg
+                         text-indigo-600 hover:text-white
+                         hover:bg-gradient-to-r hover:from-indigo-500 hover:to-purple-500
+                         transition-all duration-200 text-sm font-medium
+                         flex items-center gap-2"
+              >
+                <PenLine className="w-4 h-4" />
+                Edit
+              </button>
+            </div>
+          </div>
+        ))}
 
-        <div className="mb-6">
-          <h3 className="text-lg font-semibold">Events</h3>
-          <p>{userData.events.join(", ")}</p>
-          <button
-            className="text-indigo-600 hover:underline"
-            onClick={() => onEdit(3)} // Navigate to Event Preferences step
-          >
-            Edit
-          </button>
-        </div>
-
-        <div className="flex justify-between mt-6">
+        {/* Navigation */}
+        <div className="flex justify-between pt-6">
           <button
             type="button"
-            onClick={prevStep} // Navigate to the previous step
-            className="bg-gray-200 text-gray-700 px-4 py-2 rounded hover:bg-gray-300"
+            onClick={prevStep}
+            className="px-8 py-3 rounded-xl font-semibold text-indigo-600 
+                     border-2 border-indigo-500 hover:bg-indigo-50
+                     transition-all duration-200 transform hover:scale-[1.02]"
           >
             Back
           </button>
           <button
             type="button"
-            onClick={onFinalize} // Finalize the profile
-            className="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700"
+            onClick={onFinalize}
+            className="px-8 py-3 rounded-xl font-semibold text-white
+                     bg-gradient-to-r from-indigo-500 to-purple-500
+                     hover:from-indigo-600 hover:to-purple-600
+                     transition-all duration-200 transform hover:scale-[1.02]
+                     shadow-md hover:shadow-lg
+                     flex items-center gap-2"
           >
-            Finalize
+            <CheckCircle className="w-5 h-5" />
+            Finalize Profile
           </button>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,3 +1,4 @@
+import { CameraIcon, VenetianMaskIcon } from "lucide-react";
 import React from "react";
 
 interface RoleSelectionProps {
@@ -6,31 +7,72 @@ interface RoleSelectionProps {
 
 const RoleSelection: React.FC<RoleSelectionProps> = ({ onSelectRole }) => {
   return (
-    <div className="text-center">
-      <h2 className="text-3xl font-bold mb-6 text-gray-800">Who are you?</h2>
-      <div className="flex gap-8 justify-center">
-        {/* Cosplayer Card */}
-        <div
-          onClick={() => onSelectRole("cosplayer")}
-          className="w-64 h-80 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-transform duration-300"
-        >
-          <span className="text-indigo-600 text-6xl mb-4">🎭</span>
-          <h3 className="text-xl font-semibold text-gray-700">Cosplayer</h3>
-          <p className="text-gray-600 text-center px-4 mt-2">
-            Showcase your cosplay portfolio and connect with photographers.
+    <div className="min-h-[calc(100vh-10rem)] flex items-center justify-center pb-20 -mt-16">
+      <div className="text-center max-w-3xl mx-auto">
+        {/* Enhanced Title Section */}
+        <div className="mb-16 space-y-4">
+          <h1 className="text-4xl font-bold text-white mb-2 drop-shadow-lg">
+            Who are you?
+          </h1>
+          <p className="text-indigo-100 text-lg">
+            Choose your role to get started
           </p>
         </div>
+        
+        {/* Role Selection Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          {[
+            {
+              role: "cosplayer",
+              icon: VenetianMaskIcon,
+              title: "Cosplayer",
+              description: "Share your portfolio & connect with photographers",
+              gradient: "from-pink-500 to-purple-500"
+            },
+            {
+              role: "photographer",
+              icon: CameraIcon,
+              title: "Photographer",
+              description: "Showcase your work & connect with cosplayers",
+              gradient: "from-indigo-500 to-blue-500"
+            }
+          ].map(({ role, icon: Icon, title, description, gradient }) => (
+            <button 
+              key={role}
+              onClick={() => onSelectRole(role)}
+              className="group relative bg-white/95 backdrop-blur-sm rounded-2xl p-8
+                       hover:bg-white/100 shadow-xl hover:shadow-2xl
+                       border border-white/20 transition-all duration-300
+                       hover:scale-[1.02] hover:-translate-y-1"
+            >
+              <div className="flex flex-col items-center space-y-4">
+                {/* Icon with gradient background */}
+                <div className={`p-4 rounded-xl bg-gradient-to-r ${gradient} 
+                              transform transition-transform duration-300
+                              group-hover:scale-110 shadow-lg`}>
+                  <Icon className="w-8 h-8 text-white" />
+                </div>
+                
+                {/* Title with subtle animation */}
+                <h2 className="text-2xl font-semibold text-gray-900
+                             group-hover:text-transparent group-hover:bg-clip-text
+                             group-hover:bg-gradient-to-r group-hover:from-indigo-500
+                             group-hover:to-purple-500 transition-all duration-300">
+                  {title}
+                </h2>
+                
+                {/* Description */}
+                <p className="text-gray-600 max-w-[200px]">
+                  {description}
+                </p>
+              </div>
 
-        {/* Photographer Card */}
-        <div
-          onClick={() => onSelectRole("photographer")}
-          className="w-64 h-80 bg-white rounded-lg shadow-lg flex flex-col justify-center items-center cursor-pointer hover:scale-105 transition-transform duration-300"
-        >
-          <span className="text-indigo-600 text-6xl mb-4">📸</span>
-          <h3 className="text-xl font-semibold text-gray-700">Photographer</h3>
-          <p className="text-gray-600 text-center px-4 mt-2">
-            Connect with cosplayers and showcase your photography work.
-          </p>
+              {/* Subtle gradient border on hover */}
+              <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-indigo-500 
+                           to-purple-500 opacity-0 group-hover:opacity-10 transition-opacity 
+                           duration-300" />
+            </button>
+          ))}
         </div>
       </div>
     </div>

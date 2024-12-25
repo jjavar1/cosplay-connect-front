@@ -5,9 +5,10 @@ import FeaturesSection from "../components/FeaturesSection";
 import FeedbackSection from "../components/FeedbackSection";
 import Footer from "../components/Footer";
 
+
 const LandingPage: React.FC = () => {
   return (
-    <div className="font-sans">
+    <div className="font-sans" >
       <Navbar />
       <HeroSection />
       <FeaturesSection />
